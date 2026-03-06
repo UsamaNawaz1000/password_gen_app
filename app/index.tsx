@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text, TextInput, Button, Alert, Switch, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { useFormik } from 'formik';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import * as yup from 'yup';
 import { useState } from 'react';
 
@@ -52,7 +53,6 @@ export default function HomeScreen() {
 
   // Generate password based on form values
   const generatePassword = (values: PasswordFormValues) => {
-    // Build character list based on selected options
     let charList = '';
     
     if (values.includeUppercase) charList += uppercaseChars;
@@ -113,57 +113,70 @@ export default function HomeScreen() {
         </View>
 
         {/* Options Section */}
-        <View style={styles.optionsContainer}>
-          <Text style={styles.sectionTitle}>Include:</Text>
-          
-          {/* Uppercase Toggle */}
-          <View style={styles.optionRow}>
-            <Text>Uppercase (A-Z)</Text>
-            <Switch
-              value={formik.values.includeUppercase}
-              onValueChange={(value) => {
-                formik.setFieldValue('includeUppercase', value);
-              }}
-              trackColor={{ false: "#767577", true: "#007AFF" }}
-            />
-          </View>
+        {/* Options Section */}
+<View style={styles.optionsContainer}>
+  <Text style={styles.sectionTitle}>Include:</Text>
+  
+  {/* Uppercase Toggle */}
+  <View style={styles.optionRow}>
+    <Text style={styles.optionText}>Uppercase (A-Z)</Text>
+    <BouncyCheckbox
+      isChecked={formik.values.includeUppercase}
+      onPress={(checked: boolean) => {
+        formik.setFieldValue('includeUppercase', checked);
+      }}
+      fillColor="#ff0000"
+      size={25}
+      iconStyle={{ borderColor: "#ff0000" }}
+      innerIconStyle={{ borderWidth: 2 }}
+    />
+  </View>
 
-          {/* Lowercase Toggle */}
-          <View style={styles.optionRow}>
-            <Text>Lowercase (a-z)</Text>
-            <Switch
-              value={formik.values.includeLowercase}
-              onValueChange={(value) => {
-                formik.setFieldValue('includeLowercase', value);
-              }}
-              trackColor={{ false: "#767577", true: "#007AFF" }}
-            />
-          </View>
+  {/* Lowercase Toggle */}
+  <View style={styles.optionRow}>
+    <Text style={styles.optionText}>Lowercase (a-z)</Text>
+    <BouncyCheckbox
+      isChecked={formik.values.includeLowercase}
+      onPress={(checked: boolean) => {
+        formik.setFieldValue('includeLowercase', checked);
+      }}
+      fillColor="#ffe600"
+      size={25}
+      iconStyle={{ borderColor: "#ffe600" }}
+      innerIconStyle={{ borderWidth: 2 }}
+    />
+  </View>
 
-          {/* Numbers Toggle */}
-          <View style={styles.optionRow}>
-            <Text>Numbers (0-9)</Text>
-            <Switch
-              value={formik.values.includeNumbers}
-              onValueChange={(value) => {
-                formik.setFieldValue('includeNumbers', value);
-              }}
-              trackColor={{ false: "#767577", true: "#007AFF" }}
-            />
-          </View>
+  {/* Numbers Toggle */}
+  <View style={styles.optionRow}>
+    <Text style={styles.optionText}>Numbers (0-9)</Text>
+    <BouncyCheckbox
+      isChecked={formik.values.includeNumbers}
+      onPress={(checked: boolean) => {
+        formik.setFieldValue('includeNumbers', checked);
+      }}
+      fillColor="#007AFF"
+      size={25}
+      iconStyle={{ borderColor: "#007AFF" }}
+      innerIconStyle={{ borderWidth: 2 }}
+    />
+  </View>
 
-          {/* Symbols Toggle */}
-          <View style={styles.optionRow}>
-            <Text>Symbols (!@#$)</Text>
-            <Switch
-              value={formik.values.includeSymbols}
-              onValueChange={(value) => {
-                formik.setFieldValue('includeSymbols', value);
-              }}
-              trackColor={{ false: "#767577", true: "#007AFF" }}
-            />
-          </View>
-        </View>
+  {/* Symbols Toggle */}
+  <View style={styles.optionRow}>
+    <Text style={styles.optionText}>Symbols (!@#$)</Text>
+    <BouncyCheckbox
+      isChecked={formik.values.includeSymbols}
+      onPress={(checked: boolean) => {
+        formik.setFieldValue('includeSymbols', checked);
+      }}
+      fillColor="#7300ff"
+      size={25}
+      iconStyle={{ borderColor: "#7300ff" }}
+      innerIconStyle={{ borderWidth: 2 }}
+    />
+  </View>
+</View>
 
         {/* Action Buttons */}
         <View style={styles.buttonContainer}>
@@ -270,8 +283,7 @@ const styles = StyleSheet.create({
   },
   optionRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'space-evenly',
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
@@ -349,4 +361,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  optionText: {
+  fontSize: 16,
+  color: '#333',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}
 });
